@@ -14,13 +14,15 @@ Timelock Min Delay      3 days (enforced delay before executing an operation)
 
 Governor Name                   Chip Governor
 Governor Quorum Fraction        5%          (fraction of token supply needed for successful proposal)
-Governor Proposal Threshold     10 million  (absolute amount of token needed to make a proposal)
+Governor Proposal Threshold     100 million (1% of supply; absolute amount of token needed to make a proposal)
 Governor Voting Delay           1 day       (delay between proposal and vote start, allows time to acquire token or delegate)
 Governor Voting Period          1 week      (voting duration)
 Governor Vote Extension         3 days      (vote extension for late quorum)
 ```
 
 Proposal votes can be For, Abstain, or Against. Quorum Fraction counts For and Abstain votes, but not Against votes.
+
+As of Chip v1.2, CHIP transfers are unrestricted and subject only to the USDai blacklist; there is no transfer-lock role.
 
 # Initial Ownership
 
@@ -40,7 +42,6 @@ Chip
     Initial Supply              -> USDai Treasury Multisig
     DEFAULT_ADMIN_ROLE          -> USDai Admin Multisig, Timelock Controller
     REVOKE_DELEGATE_ADMIN_ROLE  -> USDai Admin Multisig
-    TRANSFER_ADMIN_ROLE         -> USDai Treasury Multisig
 
 StakedChip
     DEFAULT_ADMIN_ROLE  -> USDai Admin Multisig, Timelock Controller
@@ -73,7 +74,6 @@ DepositTimelock Proxy
 Chip
     DEFAULT_ADMIN_ROLE          -> Timelock Controller
     REVOKE_DELEGATE_ADMIN_ROLE  -> USDai Admin Multisig
-    TRANSFER_ADMIN_ROLE         -> N/A
 
 StakedChip
     DEFAULT_ADMIN_ROLE  -> Timelock Controller

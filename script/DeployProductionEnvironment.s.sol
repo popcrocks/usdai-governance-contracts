@@ -183,13 +183,6 @@ contract DeployProductionEnvironment is Deployer {
             abi.encodeWithSelector(IAccessControl.grantRole.selector, keccak256("REVOKE_DELEGATE_ADMIN_ROLE"), admin)
         );
 
-        console.log("Grant Chip TRANSFER_ADMIN_ROLE to treasury...");
-        console.log("target", CHIP_ADDRESS);
-        console.log("calldata");
-        console.logBytes(
-            abi.encodeWithSelector(IAccessControl.grantRole.selector, keccak256("TRANSFER_ADMIN_ROLE"), treasury)
-        );
-
         console.log("Grant StakedChip DEFAULT_ADMIN_ROLE to TimelockController...");
         console.log("target", STAKED_CHIP_ADDRESS);
         console.log("calldata");

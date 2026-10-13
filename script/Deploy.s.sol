@@ -15,6 +15,13 @@ import {IVotes} from "openzeppelin-contracts/contracts/governance/utils/IVotes.s
 
 import {Deployer} from "script/utils/Deployer.s.sol";
 
+/**
+ * @notice Development / single-chain deployment script.
+ * @dev For production use DeployProductionEnvironment.s.sol, which uses deterministic
+ *      CreateX addresses and assigns privileged roles to the admin/treasury multisigs
+ *      rather than to the deployer EOA. This script grants CANCELLER_ROLE to the
+ *      deploying account for convenience and is not intended for mainnet.
+ */
 contract Deploy is Deployer {
     uint256 private constant TOKEN_SUPPLY = 10e9 ether;
     uint256 private constant TIMELOCK_MIN_DELAY = 3 days;
@@ -64,7 +71,7 @@ contract Deploy is Deployer {
         );
 
         console.log("Deploying StakedChip implementation...");
-        StakedChip stakedChipImpl = new StakedChip(usdaiAddress, _deployment.chip);
+        StakedChip stakedChipImpl = new StakedChip(usdaiAddress, address(chip));
 
         console.log("Deploying StakedChip proxy...");
         TransparentUpgradeableProxy stakedChip = new TransparentUpgradeableProxy(
@@ -93,9 +100,6 @@ contract Deploy is Deployer {
 
         console.log("Granting Chip REVOKE_DELEGATE_ADMIN_ROLE to admin...");
         Chip(address(chip)).grantRole(keccak256("REVOKE_DELEGATE_ADMIN_ROLE"), msg.sender);
-
-        console.log("Granting Chip TRANSFER_ADMIN_ROLE to treasury...");
-        Chip(address(chip)).grantRole(keccak256("TRANSFER_ADMIN_ROLE"), treasury);
 
         console.log("Granting StakedChip DEFAULT_ADMIN_ROLE to TimelockController...");
         StakedChip(address(stakedChip)).grantRole(0x00, address(timelock));
